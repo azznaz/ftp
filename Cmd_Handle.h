@@ -2,6 +2,8 @@
 #include <map>
 #include <functional>
 #include <algorithm>
+#include <sys/types.h>
+#include <grp.h>
 #include <string>
 #include "Ftp_Code.h"
 #include "ace/ACE.h"
@@ -29,6 +31,10 @@ private:
   int check(string &cmd);
   void reply(char *buf,int n);
   ACE_HANDLE get_handle();
+  int get_file_info(struct stat &sbuf,char *buf,int size);
+  int send_list(string &path,ACE_SOCK_Stream &peer);
+  void parse_path(string &path,string &res);
+  void get_father_dir(string &res);
   void pwd();
   void cwd();
   void user();
@@ -44,6 +50,7 @@ private:
   void port();
   void stor();
   void retr();
+  void type();
 
   enum State{
     noconnect,
@@ -59,6 +66,8 @@ private:
   string cwd_;
   bool passive_;
   string client_ip_;
+  string server_addr_;
+  string pre;
   u_short port_;
   ACE_SOCK_Acceptor pasv_acceptor_;
   bool stop_;

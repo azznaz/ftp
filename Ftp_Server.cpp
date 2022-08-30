@@ -1,6 +1,7 @@
 #include "Ftp_Server.h"
 
 int Ftp_Server::run(int argc, char *argv[]){
+   printf("run\n");
   if (this->open (argc > 1 ? ACE_OS::atoi (argv[1]) : 0) == -1)
     return -1;
   ACE_DEBUG((LM_DEBUG,"listen in port: %s\n",argv[1]));
@@ -25,8 +26,9 @@ int Ftp_Server::open (u_short port)
   else
     result = server_addr.set ("ace_ftp",
                               (ACE_UINT32) INADDR_ANY);
+  printf("11\n");
   if (result == -1) return -1;
-
+  printf("%s\n",server_addr.get_host_name());
   // Start listening, enable reuse of listen address for quick restarts.
   if(acceptor_.open (server_addr, 1) == -1) return -1;
   master_handle_set_.set_bit (acceptor_.get_handle ());
@@ -45,7 +47,7 @@ int Ftp_Server::handle_connections () {
     ACE_SOCK_Stream ftp_peer;
     ACE_DEBUG((LM_DEBUG,"handle_connections\n"));
     char hostname[MAXHOSTNAMELEN];
-    char buf[BUFSIZ]="welcome!";
+    char buf[BUFSIZ]="220 welcome!\r\n";
     while (acceptor_.accept (ftp_peer) != -1) {
       ACE_FILE_IO *log_file = new ACE_FILE_IO;
       ACE_INET_Addr client;
@@ -96,29 +98,6 @@ int Ftp_Server::handle_data (ACE_SOCK_Stream *) {
     //   }
     }
     return 0;
-}
-vector<string> Ftp_Server::parse(char *buf){
-    string line(buf);
-    vector<string> cmdAndpara;
-    string tmp;
-    int i = 0;
-    while (i < line.size())
-    {
-        if(line[i] == ' '){
-            i++;
-            continue;
-        }
-        int pos = line.find(' ',i);
-        tmp = line.substr(i,pos-i);
-        i = pos;
-        cmdAndpara.push_back(tmp);
-    }
-    return cmdAndpara;
-}
-int check(string &cmd){
-    if(cmd.size() == strlen("user") && strncasecmp(cmd.c_str(),"user",cmd.size())) return 0;
-    else if(cmd.size() == strlen("pass") && strncasecmp(cmd.c_str(),"pass",cmd.size())) return 1;
-    return -1;
 }
 int Ftp_Server::handle_command(ACE_HANDLE handle){
     

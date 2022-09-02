@@ -18,19 +18,24 @@
 #include "ace/SOCK_Connector.h"
 #include "ace/Truncate.h"
 #include "ace/os_include/os_fcntl.h"
+#include "ace/Event_Handler.h"
+#include "ace/Reactor.h"
 using namespace std;
 #define SIZE_BUF 1024
-class Cmd_Handle{
+class Cmd_Handle : public ACE_Event_Handler{
 public:
   Cmd_Handle(ACE_HANDLE handle);
+  int open();
   int handle();
 private:
   typedef  _Bind<void (Cmd_Handle::*(Cmd_Handle *))()> handler;
 
   vector<string> parse(char *buf);
+  //int check(string &cmd);
   void reply(char *buf,int n);
   ACE_HANDLE get_handle();
   int get_file_info(struct stat &sbuf,char *buf,int size);
+  int send_list(string &path,ACE_SOCK_Stream &peer);
   void parse_path(const string &path,string &res)const;
   void get_father_dir(string &res)const;
   void pwd();
@@ -73,5 +78,6 @@ private:
   u_short port_;
   bool stop_;
   bool login_;
+  bool binary_;
   State state_;
 };

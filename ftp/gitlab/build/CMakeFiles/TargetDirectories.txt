@@ -1,0 +1,3 @@
+/home/scutech/azznaz/myftp/ftpserver/build/CMakeFiles/server.dir
+/home/scutech/azznaz/myftp/ftpserver/build/CMakeFiles/edit_cache.dir
+/home/scutech/azznaz/myftp/ftpserver/build/CMakeFiles/rebuild_cache.dir

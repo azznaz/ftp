@@ -1,0 +1,9 @@
+cmake_minimum_required (VERSION 3.24.1)
+
+# 项目信息
+project (ftpserver)
+
+# 指定生成目标
+add_executable(server Cmd_Handle.cpp server.cpp )
+
+target_link_libraries(server ACE)

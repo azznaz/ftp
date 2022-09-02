@@ -1,6 +1,6 @@
 #include "Cmd_Handle.h"
 
-Cmd_Handle::Cmd_Handle(ACE_HANDLE handle):stop_(false),state_(st_no),login_(false),pre_(""),cwd_(""){
+Cmd_Handle::Cmd_Handle(ACE_HANDLE handle):stop_(false),state_(st_no),login_(false),pre_("/home/scutech"),cwd_(""){
     fstream  file("../user.txt");
     string  line;
     while(getline(file,line)){

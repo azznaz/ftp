@@ -25,8 +25,6 @@ public:
   int wait_for_multiple_events ();
   int handle_connections ();
   int handle_data (ACE_SOCK_Stream * = 0);
-  vector<string> parse(char *buf);
-  int check(string &cmd);
 private:
   ACE_Handle_Set master_handle_set_;
   ACE_Handle_Set active_read_handles_;

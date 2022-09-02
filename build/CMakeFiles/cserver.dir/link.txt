@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/cserver.dir/Cmd_Handle.cpp.o CMakeFiles/cserver.dir/server.cpp.o CMakeFiles/cserver.dir/Ftp_Server.cpp.o -o cserver  -lACE 
